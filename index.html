@@ -232,18 +232,41 @@
 
         /* ── 手機版響應式 ── */
         @media (max-width: 640px) {
-            /* Top bar */
-            #top-bar { padding: 0 10px; gap: 4px; height: 46px; overflow-x: auto; }
+
+            /* ── Top bar：左側品牌固定，右側分類可橫向捲動 ── */
+            #top-bar {
+                padding: 0 0 0 10px;
+                gap: 0;
+                height: 46px;
+                overflow: hidden;        /* bar 本身不捲動 */
+                flex-wrap: nowrap;
+            }
+            .top-brand { margin-right: 6px; flex-shrink: 0; }
             .top-brand .name { font-size: 12px; letter-spacing: 1px; }
             .top-brand .sub  { font-size: 7px; }
-            .top-sep { margin: 0 3px; }
-            #cat-btns { flex-shrink: 0; }
-            .cat-btn { padding: 3px 9px; font-size: 11px; }
-            #auto-label { display: none; }
-            #slide-counter { font-size: 10px; }
-            #auto-ctrl { flex-shrink: 0; }
+            .top-sep { margin: 0 4px; flex-shrink: 0; }
 
-            /* 主要捲動區域 */
+            /* 分類按鈕區：橫向捲動，隱藏捲軸 */
+            #cat-btns {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                gap: 5px !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                -webkit-overflow-scrolling: touch;
+                flex: 1 1 0;
+                min-width: 0;
+                padding: 0 8px;
+                scrollbar-width: none;       /* Firefox */
+            }
+            #cat-btns::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
+            .cat-btn { padding: 4px 10px; font-size: 11px; flex-shrink: 0; }
+
+            /* 自動播放控制隱藏（節省空間） */
+            #auto-ctrl { display: none; }
+            .top-spacer { display: none; }
+
+            /* ── 主要捲動區域 ── */
             .content-wrapper {
                 padding-top: 46px;
                 align-items: flex-start;
@@ -254,7 +277,7 @@
                 -webkit-overflow-scrolling: touch;
             }
 
-            /* 卡片：改為垂直排列 */
+            /* ── 卡片：垂直排列 ── */
             #menu-card {
                 flex-direction: column !important;
                 width: 92vw !important;
@@ -262,42 +285,54 @@
                 max-height: none !important;
                 overflow: visible !important;
                 border-radius: 14px;
-                margin: 8px auto 130px auto;
+                /* 底部留空間給 nav 按鈕 */
+                margin: 8px auto 80px auto;
                 flex-shrink: 0;
             }
 
-            /* 圖片欄：固定高度橫幅 */
+            /* 圖片橫幅 */
             #img-panel {
                 width: 100% !important;
                 height: 52vw !important;
                 min-height: 150px;
-                max-height: 200px;
+                max-height: 210px;
                 flex-shrink: 0;
             }
 
             /* 資訊欄 */
             #info-panel {
                 flex: none !important;
-                padding: 16px 16px 16px !important;
-                overflow-y: visible !important;
+                padding: 16px 16px 20px !important;
                 overflow: visible !important;
             }
-
             #item-name  { font-size: 18px !important; margin-bottom: 6px; }
             #item-price { font-size: 28px !important; }
-            #hover-desc { font-size: 13px; overflow-y: visible; }
+            #hover-desc { font-size: 13px; overflow-y: visible; flex: none; }
 
             /* 附餐標籤橫向排列 */
             #set-items { flex-direction: row; flex-wrap: wrap; }
             .set-tag { font-size: 11px; }
 
-            /* 底部導航 */
-            #dots { bottom: 78px; }
-            #nav  { bottom: 24px; gap: 8px; }
-            .nav-btn { padding: 8px 18px; font-size: 13px; }
+            /* ── 底部導航：縮小按鈕、固定在底部 ── */
+            #dots { bottom: 54px; }
 
-            /* 控制按鈕 */
-            .video-controls { bottom: 24px; right: 10px; }
+            #nav {
+                bottom: 8px;
+                gap: 8px;
+            }
+            .nav-btn {
+                padding: 7px 20px;
+                font-size: 12px;
+                backdrop-filter: blur(12px);
+            }
+
+            /* 影片控制移到左下，不與 nav 重疊 */
+            .video-controls {
+                bottom: 8px;
+                right: 8px;
+            }
+            .video-controls button { width: 30px; height: 30px; }
+
             .protection-badge { display: none; }
         }
     </style>
