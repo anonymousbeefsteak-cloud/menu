@@ -25,7 +25,14 @@
             position: absolute; top: 50%; left: 50%;
             min-width: 100%; min-height: 100%; width: auto; height: auto;
             transform: translateX(-50%) translateY(-50%); object-fit: cover;
+            /* 隱藏所有原生控制項與播放按鈕 */
+            pointer-events: none;
         }
+        .video-background video::-webkit-media-controls { display: none !important; }
+        .video-background video::-webkit-media-controls-enclosure { display: none !important; }
+        .video-background video::-webkit-media-controls-panel { display: none !important; }
+        .video-background video::-webkit-media-controls-play-button { display: none !important; }
+        .video-background video::-webkit-media-controls-start-playback-button { display: none !important; }
         .video-overlay { position: absolute; inset: 0; background: rgba(10,10,42,0.72); }
 
         .loading-overlay {
@@ -363,7 +370,7 @@
 </div>
 
 <div class="video-background">
-    <video id="bg-video" autoplay muted loop playsinline>
+    <video id="bg-video" autoplay muted loop playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny">
         <source src="https://assets.codepen.io/3364143/sample.mp4" type="video/mp4">
     </video>
     <div class="video-overlay"></div>
