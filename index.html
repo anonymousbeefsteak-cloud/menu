@@ -233,42 +233,44 @@
         /* ── 手機版響應式 ── */
         @media (max-width: 640px) {
 
-            /* ── Top bar：左側品牌固定，右側分類可橫向捲動 ── */
+            /* ── Top bar：改成兩行，分類按鈕獨佔一整行 ── */
             #top-bar {
-                padding: 0 0 0 10px;
+                flex-wrap: wrap;
+                height: auto;
+                padding: 6px 10px 0 10px;
                 gap: 0;
-                height: 46px;
-                overflow: hidden;        /* bar 本身不捲動 */
-                flex-wrap: nowrap;
+                overflow: visible;
             }
-            .top-brand { margin-right: 6px; flex-shrink: 0; }
-            .top-brand .name { font-size: 12px; letter-spacing: 1px; }
-            .top-brand .sub  { font-size: 7px; }
-            .top-sep { margin: 0 4px; flex-shrink: 0; }
 
-            /* 分類按鈕區：橫向捲動，隱藏捲軸 */
+            /* 第一行：品牌 + 分隔 + 彈性空間 + 播放控制 */
+            .top-brand { margin-right: 6px; flex-shrink: 0; order: 1; }
+            .top-brand .name { font-size: 13px; letter-spacing: 1px; }
+            .top-brand .sub  { font-size: 7px; }
+            .top-sep   { flex-shrink: 0; order: 2; margin: 0 4px; }
+            .top-spacer { flex: 1; order: 3; }
+            #auto-ctrl  { flex-shrink: 0; order: 4; gap: 5px; }
+            #auto-label { font-size: 10px; }
+            #slide-counter { font-size: 10px; }
+
+            /* 第二行：分類按鈕，佔滿整行並可橫向捲動 */
             #cat-btns {
+                order: 5;
+                width: 100%;
                 display: flex !important;
                 flex-wrap: nowrap !important;
-                gap: 5px !important;
+                gap: 6px !important;
                 overflow-x: auto !important;
                 overflow-y: hidden !important;
                 -webkit-overflow-scrolling: touch;
-                flex: 1 1 0;
-                min-width: 0;
-                padding: 0 8px;
-                scrollbar-width: none;       /* Firefox */
+                padding: 5px 0 6px 0;
+                scrollbar-width: none;
             }
-            #cat-btns::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
-            .cat-btn { padding: 4px 10px; font-size: 11px; flex-shrink: 0; }
+            #cat-btns::-webkit-scrollbar { display: none; }
+            .cat-btn { padding: 4px 12px; font-size: 11px; flex-shrink: 0; }
 
-            /* 自動播放控制隱藏（節省空間） */
-            #auto-ctrl { display: none; }
-            .top-spacer { display: none; }
-
-            /* ── 主要捲動區域 ── */
+            /* ── 主要捲動區域（top-bar 現在約 78px 高） ── */
             .content-wrapper {
-                padding-top: 46px;
+                padding-top: 78px;
                 align-items: flex-start;
                 overflow-y: auto;
                 overflow-x: hidden;
