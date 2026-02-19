@@ -151,17 +151,17 @@
 
         /* ── 附餐標籤 ── */
         #set-items {
-            position: absolute; bottom: 14px; left: 14px;
-            display: flex; flex-direction: column; gap: 5px;
+            position: absolute; bottom: 14px; left: 14px; right: 54px;
+            display: flex; flex-wrap: wrap; gap: 5px;
             z-index: 10;
         }
         .set-tag {
             display: flex; align-items: center; gap: 6px;
-            background: rgba(0,0,0,0.62); backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.68); backdrop-filter: blur(6px);
             border-radius: 20px; padding: 5px 12px;
             font-size: 12px; font-weight: 700; color: #fff;
             letter-spacing: 1px; white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.15);
         }
         .set-tag .set-num {
             background: var(--gold); color: #1a1a1a;
@@ -170,9 +170,9 @@
             font-size: 11px; font-weight: 900; flex-shrink: 0;
         }
         @media (max-width: 640px) {
-            #set-items { bottom: 10px; left: 10px; gap: 4px; }
-            .set-tag { font-size: 10px; padding: 4px 9px; }
-            .set-tag .set-num { width: 16px; height: 16px; font-size: 10px; }
+            #set-items { gap: 4px; margin-bottom: 8px; }
+            .set-tag { font-size: 10px; padding: 3px 9px 3px 4px; }
+            .set-tag .set-num { width: 15px; height: 15px; font-size: 9px; }
         }
 
         #info-panel {
@@ -180,7 +180,24 @@
             display: flex; flex-direction: column;
             background: #f5f6fa; overflow-y: auto;
         }
-        #item-name { font-size: clamp(18px, 2.2vw, 34px); font-weight: 900; color: #1a2340; line-height: 1.25; margin-bottom: 10px; }
+        #item-name { font-size: clamp(18px, 2.2vw, 34px); font-weight: 900; color: #1a2340; line-height: 1.25; margin-bottom: 8px; }
+        #set-items {
+            display: flex; flex-wrap: wrap; gap: 5px;
+            margin-bottom: 10px;
+        }
+        .set-tag {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #1a2340; border-radius: 20px;
+            padding: 4px 11px 4px 5px;
+            font-size: 11.5px; font-weight: 700; color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .set-tag .set-num {
+            background: var(--gold); color: #1a1a1a;
+            border-radius: 50%; width: 17px; height: 17px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 900; flex-shrink: 0;
+        }
         #price-row { display: flex; align-items: baseline; gap: 14px; margin-bottom: 4px; }
         #item-price { font-size: clamp(26px, 3.1vw, 44px); font-weight: 900; color: #3355cc; }
         #item-weight { font-size: 13px; color: #3355cc; font-style: italic; font-weight: 500; }
@@ -289,7 +306,6 @@
         <div id="img-panel">
             <img id="main-img" src="" alt="" loading="lazy">
             <div id="cat-badge"></div>
-            <div id="set-items"></div>
             <div id="ring-wrap">
                 <svg viewBox="0 0 34 34">
                     <circle cx="17" cy="17" r="13" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3"/>
@@ -300,6 +316,7 @@
         </div>
         <div id="info-panel">
             <div id="item-name"></div>
+            <div id="set-items"></div>
             <div id="price-row">
                 <div id="item-price"></div>
                 <div id="item-weight"></div>
@@ -388,19 +405,15 @@ function render(animate) {
         const setEl = document.getElementById('set-items');
         setEl.innerHTML = '';
         const desc = s.desc || '';
-        // 解析 ①②③④⑤ 編號項目
-        const circled = ['①','②','③','④','⑤'];
-        const labels = { '①':'日湯','②':'麵包','③':'主餐','④':'脆薯','⑤':'飲料' };
-        // 找出 desc 中出現的所有 ① ~ ⑤ 及其後的文字
-        const tagRe = /[①②③④⑤][^\s①②③④⑤\n]*/g;
+        // 用 Unicode codepoint 抓 ①~⑤ (U+2460~U+2464)
+        const tagRe = /[\u2460-\u2464][^\u2460-\u2464\n]*/g;
         const matches = desc.match(tagRe) || [];
-        // 合併成一行顯示（每個一個 tag）
         if (matches.length) {
             const row = document.createElement('div');
             row.style.cssText = 'display:flex;gap:5px;flex-wrap:wrap;';
             matches.forEach(m => {
                 const num = m[0];
-                const txt = m.slice(1).trim() || labels[num] || '';
+                const txt = m.slice(1).trim();
                 const tag = document.createElement('div');
                 tag.className = 'set-tag';
                 tag.innerHTML = `<span class="set-num">${num}</span>${txt}`;
