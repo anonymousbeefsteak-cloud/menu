@@ -149,6 +149,32 @@
         #ring-wrap { position: absolute; bottom: 14px; right: 14px; width: 34px; height: 34px; }
         #ring-wrap svg { width: 34px; height: 34px; transform: rotate(-90deg); }
 
+        /* ── 附餐標籤 ── */
+        #set-items {
+            position: absolute; bottom: 14px; left: 14px;
+            display: flex; flex-direction: column; gap: 5px;
+            z-index: 10;
+        }
+        .set-tag {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(0,0,0,0.62); backdrop-filter: blur(6px);
+            border-radius: 20px; padding: 5px 12px;
+            font-size: 12px; font-weight: 700; color: #fff;
+            letter-spacing: 1px; white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .set-tag .set-num {
+            background: var(--gold); color: #1a1a1a;
+            border-radius: 50%; width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 900; flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+            #set-items { bottom: 10px; left: 10px; gap: 4px; }
+            .set-tag { font-size: 10px; padding: 4px 9px; }
+            .set-tag .set-num { width: 16px; height: 16px; font-size: 10px; }
+        }
+
         #info-panel {
             flex: 1; padding: 36px 42px 28px;
             display: flex; flex-direction: column;
@@ -209,112 +235,6 @@
             background: linear-gradient(90deg, #8B3A10, var(--gold));
             transition: width 0.4s ease; z-index: 300;
         }
-
-        /* ══════════════════════════════
-           手機響應式 (≤ 640px)
-        ══════════════════════════════ */
-        @media (max-width: 640px) {
-            /* top-bar：品牌縮小，分類按鈕可橫捲 */
-            #top-bar {
-                padding: 0 10px;
-                height: 48px;
-                gap: 4px;
-            }
-            .top-brand .name { font-size: 13px; letter-spacing: 2px; }
-            .top-brand .sub  { display: none; }
-            .top-sep { display: none; }
-            #cat-btns {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                flex-shrink: 1;
-                min-width: 0;
-            }
-            #cat-btns::-webkit-scrollbar { display: none; }
-            .cat-btn { font-size: 11px; padding: 4px 10px; }
-            #auto-label { display: none; }
-            #slide-counter { font-size: 10px; }
-
-            /* 卡片：改直向排列，佔滿螢幕 */
-            .content-wrapper {
-                align-items: flex-start;
-                padding-top: 48px;
-            }
-            #menu-card {
-                width: 100vw;
-                height: calc(100vh - 48px - 90px); /* 留底部空間給按鈕 */
-                border-radius: 0;
-                flex-direction: column;
-                box-shadow: none;
-            }
-
-            /* 圖片區：固定高度 */
-            #img-panel {
-                width: 100%;
-                height: 52%;
-                flex-shrink: 0;
-            }
-
-            /* 資訊區：其餘高度 */
-            #info-panel {
-                flex: 1;
-                padding: 14px 18px 10px;
-                overflow-y: auto;
-            }
-            #item-name   { font-size: clamp(16px, 5vw, 24px); margin-bottom: 6px; }
-            #item-price  { font-size: clamp(22px, 7vw, 32px); }
-            #item-weight { font-size: 12px; }
-            #divider     { margin: 10px 0; }
-            #hover-desc  { font-size: 13px; line-height: 1.7; }
-            #item-counter{ font-size: 10px; margin-top: 6px; }
-
-            /* 底部按鈕 */
-            #nav {
-                bottom: 14px;
-                gap: 10px;
-            }
-            .nav-btn {
-                padding: 9px 22px;
-                font-size: 13px;
-            }
-            #dots { bottom: 62px; }
-
-            /* 影片控制移到右下角但縮小 */
-            .video-controls { bottom: 14px; right: 10px; gap: 6px; }
-            .video-controls button { width: 30px; height: 30px; font-size: 12px; }
-
-            /* 保護徽章隱藏以省空間 */
-            .protection-badge { display: none; }
-
-            /* 全螢幕提示文字縮小 */
-            .fullscreen-overlay h2 { font-size: 1.3rem; }
-            .fullscreen-overlay p  { font-size: 0.85rem; }
-            .fullscreen-button     { padding: 12px 28px; font-size: 15px; }
-
-            /* violation modal */
-            .violation-content { padding: 28px 20px; }
-            .violation-content h2 { font-size: 1.5rem; }
-            .violation-content p  { font-size: 0.95rem; }
-        }
-
-        /* ══════════════════════════════
-           平板響應式 (641px – 900px)
-        ══════════════════════════════ */
-        @media (min-width: 641px) and (max-width: 900px) {
-            #top-bar { padding: 0 12px; }
-            .top-brand .name { font-size: 13px; }
-            .top-brand .sub  { display: none; }
-            #cat-btns { overflow-x: auto; scrollbar-width: none; }
-            #cat-btns::-webkit-scrollbar { display: none; }
-
-            #menu-card {
-                width: 96vw;
-                height: min(500px, calc(80vh - 54px));
-            }
-            #info-panel { padding: 24px 26px 18px; }
-            #item-name  { font-size: clamp(16px, 2.4vw, 26px); }
-            #item-price { font-size: clamp(22px, 3.5vw, 36px); }
-        }
     </style>
 </head>
 <body>
@@ -369,6 +289,7 @@
         <div id="img-panel">
             <img id="main-img" src="" alt="" loading="lazy">
             <div id="cat-badge"></div>
+            <div id="set-items"></div>
             <div id="ring-wrap">
                 <svg viewBox="0 0 34 34">
                     <circle cx="17" cy="17" r="13" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3"/>
@@ -462,6 +383,31 @@ function render(animate) {
         document.getElementById('progress-bar').style.width = ((cur+1)/total*100) + '%';
         document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', Math.round(i*(total-1)/(maxD-1))===cur));
         updateCatBtns();
+
+        // ── 附餐標籤
+        const setEl = document.getElementById('set-items');
+        setEl.innerHTML = '';
+        const desc = s.desc || '';
+        // 解析 ①②③④⑤ 編號項目
+        const circled = ['①','②','③','④','⑤'];
+        const labels = { '①':'日湯','②':'麵包','③':'主餐','④':'脆薯','⑤':'飲料' };
+        // 找出 desc 中出現的所有 ① ~ ⑤ 及其後的文字
+        const tagRe = /[①②③④⑤][^\s①②③④⑤\n]*/g;
+        const matches = desc.match(tagRe) || [];
+        // 合併成一行顯示（每個一個 tag）
+        if (matches.length) {
+            const row = document.createElement('div');
+            row.style.cssText = 'display:flex;gap:5px;flex-wrap:wrap;';
+            matches.forEach(m => {
+                const num = m[0];
+                const txt = m.slice(1).trim() || labels[num] || '';
+                const tag = document.createElement('div');
+                tag.className = 'set-tag';
+                tag.innerHTML = `<span class="set-num">${num}</span>${txt}`;
+                row.appendChild(tag);
+            });
+            setEl.appendChild(row);
+        }
     }
     if (animate) { card.classList.add('fading'); setTimeout(() => { update(); card.classList.remove('fading'); }, 280); }
     else update();
